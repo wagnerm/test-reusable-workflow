@@ -1,0 +1,24 @@
+on:
+  workflow_call:
+    inputs:
+      cibuild-script:
+        description: 'Which cibuild script to run.'
+        type: string
+        required: false
+        default: "script/cibuild"
+    secrets:
+      service-api-key:
+        required: true
+
+jobs:
+  reusable_workflow_job:
+    runs-on: ubuntu-latest
+    name: Simple Workflow Job
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3
+      - name: Run cibuild script
+        run: |
+          bash ${{ inputs.cibuild-script }}
+        shell: bash
